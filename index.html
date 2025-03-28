@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2 Player Chess</title>
+    <link rel="stylesheet" href="./css/chessboard-0.3.0.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="./js/chessboard-0.3.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>2 Player Chess</h1>
+      <div id="board"></div>
+      <div id="status"><span class="color">White</span> to move</div>
+      <div>
+        <button id="reset" class="control">Reset</button
+        ><button id="undo" class="control">undo</button>
+      </div>
+      <div class="notation">
+        <label for="notation">Show notation: </label>
+        <input name="notation" id="notation" type="checkbox" />
+      </div>
+      <p>
+        <span id="warning">Warning</span>: Changing notation will reset the game
+      </p>
+      <p id="credit">
+        Created by:
+        <a href="https://github.com/Alilool" target="_blank">Ali Elsayed</a>
+      </p>
+    </div>
+
+    <!-- Overlay and Promotion Menu -->
+    <div id="overlay"></div>
+    <div id="promotion-menu">
+      <h2>Promotion</h2>
+      <p>Choose a piece:</p>
+      <button class="promo-btn" data-piece="q">♛ Queen</button>
+      <button class="promo-btn" data-piece="r">♜ Rook</button>
+      <button class="promo-btn" data-piece="b">♝ Bishop</button>
+      <button class="promo-btn" data-piece="n">♞ Knight</button>
+    </div>
+    <audio id="checkmateAudio" src="./sounds/checkmate.mp3"></audio>
+    <audio id="moveAudio" src="./sounds/moveSFX.mp3"></audio>
+    <audio id="killAudio" src="./sounds/killSFX.mp3"></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
