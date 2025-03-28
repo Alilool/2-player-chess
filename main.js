@@ -24,6 +24,16 @@ let board1 = ChessBoard("board", config);
 let pendingMove = null; // Store move that needs promotion
 let isFlipped = false; // Track if the board is flipped
 
+document.addEventListener(
+  "touchmove",
+  function (event) {
+    if (event.target.closest("#board")) {
+      event.preventDefault(); // Prevent scrolling when touching the chessboard
+    }
+  },
+  { passive: false }
+);
+
 notation.addEventListener("change", () => {
   console.log(notation.checked);
   console.log(config);
