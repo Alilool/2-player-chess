@@ -12,24 +12,29 @@
   </head>
   <body>
     <div class="container">
-      <h1>2 Player Chess</h1>
-      <div id="board"></div>
-      <div id="status"><span class="color">White</span> to move</div>
+      <div class="board-container">
+        <h1>2 Player Chess</h1>
+        <div id="board"></div>
+      </div>
       <div>
-        <button id="reset" class="control">Reset</button
-        ><button id="undo" class="control">Undo</button>
+        <div id="status"><span class="color">White</span> to move</div>
+        <div>
+          <button id="reset" class="control">Reset</button
+          ><button id="undo" class="control">Undo</button>
+        </div>
+        <div class="notation">
+          <label for="notation">Show notation: </label>
+          <input name="notation" id="notation" type="checkbox" />
+        </div>
+        <p>
+          <span id="warning">Warning</span>: Changing notation will reset the
+          game
+        </p>
+        <p id="credit">
+          Created by:
+          <a href="https://github.com/Alilool" target="_blank">Ali Elsayed</a>
+        </p>
       </div>
-      <div class="notation">
-        <label for="notation">Show notation: </label>
-        <input name="notation" id="notation" type="checkbox" />
-      </div>
-      <p>
-        <span id="warning">Warning</span>: Changing notation will reset the game
-      </p>
-      <p id="credit">
-        Created by:
-        <a href="https://github.com/Alilool" target="_blank">Ali Elsayed</a>
-      </p>
     </div>
 
     <!-- Overlay and Promotion Menu -->

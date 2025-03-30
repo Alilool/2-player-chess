@@ -41,6 +41,14 @@ h1 {
   width: 90%;
 }
 
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 /* Game Status */
 #status {
   font-size: 1.8em;
@@ -174,7 +182,7 @@ input {
     font-size: 1.2em;
   }
   h1 {
-    font-size: 1.5em;
+    font-size: 2em;
   }
 }
 
@@ -193,5 +201,92 @@ input {
   }
   h1 {
     font-size: 1em;
+  }
+}
+
+@media (max-height: 550px) and (max-width: 1300px) {
+  #board {
+    width: 85%;
+  }
+  .container {
+    display: grid;
+    width: 70%;
+    grid-template-columns: 2fr 1fr;
+  }
+  .board-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #status {
+    font-size: 1.8em;
+  }
+  .control {
+    font-size: 1.3em;
+  }
+  .notation {
+    font-size: 1em;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-height: 550px) and (min-width: 1300px) {
+  #board {
+    width: 70%;
+  }
+  .container {
+    display: grid;
+    width: 70%;
+    grid-template-columns: 2fr 1fr;
+  }
+  .board-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #status {
+    font-size: 2em;
+  }
+  .control {
+    font-size: 1.7em;
+  }
+  .notation {
+    font-size: 1.7em;
+  }
+  h1 {
+    font-size: 1.7em;
+  }
+}
+
+@media (max-height: 550px) and (min-width: 1700px) {
+  #board {
+    width: 60%;
+  }
+  .container {
+    display: grid;
+    width: 70%;
+    grid-template-columns: 2fr 1fr;
+  }
+  .board-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #status {
+    font-size: 2em;
+  }
+  .control {
+    font-size: 1.7em;
+  }
+  .notation {
+    font-size: 1.7em;
+  }
+  h1 {
+    font-size: 1.7em;
   }
 }
