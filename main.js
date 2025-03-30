@@ -88,7 +88,7 @@ function makeMove(source, target, promotion = "q") {
     promotion: promotion, // Use selected promotion piece
   });
 
-  if (move.captured) {
+  if (move.captured && !game.in_check() && !game.in_checkmate()) {
     killAudio.play();
   } else if (game.in_check() || game.in_checkmate()) {
     checkmateAudio.play();
