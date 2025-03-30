@@ -35,8 +35,6 @@ document.addEventListener(
 );
 
 notation.addEventListener("change", () => {
-  console.log(notation.checked);
-  console.log(config);
   config.showNotation = notation.checked; // Update config
   resetBoard();
   board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
@@ -89,8 +87,6 @@ function makeMove(source, target, promotion = "q") {
     to: target,
     promotion: promotion, // Use selected promotion piece
   });
-
-  console.log(document.getElementById("status").innerHTML);
 
   if (move.captured) {
     killAudio.play();
