@@ -149,11 +149,59 @@ button:hover {
   color: black;
 }
 
-.notation {
+.checkbox-container {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  margin: 10px 0;
+}
+
+label {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+input {
+  width: 20px;
+  height: 20px;
+}
+/* Settings Menu Styles */
+.settings-menu {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  z-index: 10;
+  width: 25vw;
+}
+
+#settings-menu h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+#settings-btn {
+  margin-top: 10px;
+}
+
+#close-settings-btn {
+  margin-top: 20px;
+}
+
+/* Same styling for the settings checkboxes */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
 }
 
 label {
@@ -288,5 +336,21 @@ input {
   }
   h1 {
     font-size: 1.7em;
+  }
+}
+@media (max-width: 1200px) {
+  .settings-menu {
+    width: 40%;
+  }
+}
+@media (max-width: 500px) {
+  .settings-menu {
+    width: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .settings-menu {
+    width: 80%;
   }
 }

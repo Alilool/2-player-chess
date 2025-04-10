@@ -22,14 +22,32 @@
           <button id="reset" class="control">Reset</button
           ><button id="undo" class="control">Undo</button>
         </div>
-        <div class="notation">
-          <label for="notation">Show notation: </label>
-          <input name="notation" id="notation" type="checkbox" />
+        <button id="settings-btn" class="control">Settings</button>
+        <!-- Settings Button -->
+
+        <!-- Settings Window -->
+        <div id="settings-menu" class="settings-menu">
+          <h2>Settings</h2>
+          <div class="checkbox-container">
+            <label for="notation">Show notation: </label>
+            <input name="notation" id="notation" type="checkbox" />
+          </div>
+          <div class="checkbox-container">
+            <label for="freeMove">Move freely: </label>
+            <input name="freeMove" id="freeMove" type="checkbox" />
+          </div>
+          <div class="checkbox-container">
+            <label for="flipBoard">Flip board each turn: </label>
+            <input name="flipBoard" id="flipBoard" type="checkbox" />
+          </div>
+          <p>
+            <span id="warning">Warning</span>: Changing notation will reset the
+            game
+          </p>
+
+          <button id="close-settings-btn" class="control">Close</button>
         </div>
-        <p>
-          <span id="warning">Warning</span>: Changing notation will reset the
-          game
-        </p>
+
         <p id="credit">
           Created by:
           <a href="https://github.com/Alilool" target="_blank">Ali Elsayed</a>

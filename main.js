@@ -7,11 +7,14 @@ const killAudio = document.getElementById("killAudio");
 const resetButton = document.getElementById("reset");
 const undoButton = document.getElementById("undo");
 const notation = document.getElementById("notation");
+const freeMove = document.getElementById("freeMove");
+const flipBoard = document.getElementById("flipBoard");
 
 const config = {
   draggable: true,
   position: "start",
   showNotation: false,
+  dropOffBoard: "trash",
   onDrop: handleMove,
 };
 
@@ -55,29 +58,37 @@ function hidePromotionMenu() {
 function handleMove(source, target) {
   const piece = game.get(source);
 
-  // Check if the move is valid without making it permanent
   const move = game.move({
     from: source,
     to: target,
-    promotion: "q", // Temporarily use queen to validate the move
+    promotion: "q",
   });
 
-  // If the move is invalid, snap back
-  if (!move) {
-    return "snapback";
+  if (!freeMove.checked) {
+    if (!move) {
+      return "snapback";
+    }
   }
 
-  // Undo the temporary move so we can process it properly
   game.undo();
 
-  // If it's a pawn promotion
+  if (freeMove.checked) {
+    setTimeout(() => {
+      const boardFen = board1.fen(); // Get the updated board position
+      const fullFen = `${boardFen} w - - 0 1`; // Dummy values for turn, castling, etc.
+      game.load(fullFen);
+      updateStatus();
+    }, 0); // Delay to let the board update first
+
+    return;
+  }
+
   if (piece.type === "p" && (target[1] === "1" || target[1] === "8")) {
     showPromotionMenu();
     pendingMove = { source, target };
-    return "snapback"; // Prevent move until promotion is selected
+    return "snapback";
   }
 
-  // If not a promotion, make the move normally
   makeMove(source, target);
 }
 
@@ -95,16 +106,20 @@ function makeMove(source, target, promotion = "q") {
   } else {
     moveAudio.play();
   }
-  // Flip board if needed
-  if (game.turn() === "b" && !isFlipped) {
-    board1.flip();
-    isFlipped = true;
-  } else if (game.turn() === "w" && isFlipped) {
-    board1.flip();
-    isFlipped = false;
-  }
 
-  board1.position(game.fen()); // Update board
+  if (flipBoard.checked) {
+    // Flip board if needed
+    if (game.turn() === "b" && !isFlipped) {
+      board1.flip();
+      isFlipped = true;
+    } else if (game.turn() === "w" && isFlipped) {
+      board1.flip();
+      isFlipped = false;
+    }
+  }
+  if (!freeMove.checked) {
+    board1.position(game.fen()); // Update board
+  }
   updateStatus();
 }
 
@@ -147,6 +162,25 @@ function resetBoard() {
   board1.position(game.fen());
   updateStatus();
 }
+const settingsBtn = document.getElementById("settings-btn");
+const settingsMenu = document.getElementById("settings-menu");
+const closeSettingsBtn = document.getElementById("close-settings-btn");
+
+settingsBtn.addEventListener("click", () => {
+  settingsMenu.style.display = "block"; // Show the settings menu
+  overlay.style.display = "block"; // Show the overlay
+});
+
+closeSettingsBtn.addEventListener("click", () => {
+  settingsMenu.style.display = "none"; // Hide the settings menu
+  overlay.style.display = "none"; // Hide the overlay
+});
+
+// If the overlay is clicked, also close the settings menu
+overlay.addEventListener("click", () => {
+  settingsMenu.style.display = "none";
+  overlay.style.display = "none";
+});
 
 function undoMove() {
   game.undo();
