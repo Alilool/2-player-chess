@@ -170,7 +170,7 @@ function updateStatus() {
     statusElement.innerHTML = `Checkmate! ${
       game.turn() === "w"
         ? "<span id='black'>Black</span>"
-        : "span id='white'>White</span>"
+        : "<span id='white'>White</span>"
     } wins!`;
   } else if (game.in_draw()) {
     statusElement.innerHTML = "It's a draw!";
