@@ -9,6 +9,9 @@ const undoButton = document.getElementById("undo");
 const notation = document.getElementById("notation");
 const freeMove = document.getElementById("freeMove");
 const flipBoard = document.getElementById("flipBoard");
+const settingsBtn = document.getElementById("settings-btn");
+const settingsMenu = document.getElementById("settings-menu");
+const closeSettingsBtn = document.getElementById("close-settings-btn");
 
 const config = {
   draggable: true,
@@ -162,9 +165,6 @@ function resetBoard() {
   board1.position(game.fen());
   updateStatus();
 }
-const settingsBtn = document.getElementById("settings-btn");
-const settingsMenu = document.getElementById("settings-menu");
-const closeSettingsBtn = document.getElementById("close-settings-btn");
 
 settingsBtn.addEventListener("click", () => {
   settingsMenu.style.display = "block"; // Show the settings menu

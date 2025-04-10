@@ -195,25 +195,6 @@ input {
   margin-top: 20px;
 }
 
-/* Same styling for the settings checkboxes */
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 10px 0;
-}
-
-label {
-  font-size: 1.3em;
-  font-weight: bold;
-}
-
-input {
-  width: 20px;
-  height: 20px;
-}
-
 /* Responsive */
 
 @media (max-width: 1300px) {
