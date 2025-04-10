@@ -195,6 +195,25 @@ input {
   margin-top: 20px;
 }
 
+.returnLastGame {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  z-index: 10;
+  width: 15vw;
+}
+.returnLastGame h2 {
+  margin: 20px;
+  font-size: 22px;
+}
+
 /* Responsive */
 
 @media (max-width: 1300px) {
@@ -323,9 +342,15 @@ input {
   .settings-menu {
     width: 40%;
   }
+  .returnLastGame {
+    width: 30%;
+  }
 }
 @media (max-width: 500px) {
   .settings-menu {
+    width: 100%;
+  }
+  .returnLastGame {
     width: 100%;
   }
 }
@@ -333,5 +358,8 @@ input {
 @media (max-width: 800px) {
   .settings-menu {
     width: 80%;
+  }
+  .returnLastGame {
+    width: 60%;
   }
 }

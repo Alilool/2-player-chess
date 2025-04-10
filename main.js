@@ -12,6 +12,16 @@ const flipBoard = document.getElementById("flipBoard");
 const settingsBtn = document.getElementById("settings-btn");
 const settingsMenu = document.getElementById("settings-menu");
 const closeSettingsBtn = document.getElementById("close-settings-btn");
+const returnYes = document.getElementById("yes");
+const returnNo = document.getElementById("no");
+const returnContainer = document.getElementById("returnLastGame");
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("lastGame")) {
+    returnContainer.style.display = "block";
+    overlay.style.display = "block";
+  }
+});
 
 const config = {
   draggable: true,
@@ -29,6 +39,20 @@ const game = new Chess(); // Create a chess game instance
 let board1 = ChessBoard("board", config);
 let pendingMove = null; // Store move that needs promotion
 let isFlipped = false; // Track if the board is flipped
+
+returnYes.addEventListener("click", () => {
+  game.load(localStorage.getItem("lastGame"));
+  board1.position(localStorage.getItem("lastGame"));
+  updateStatus();
+  returnContainer.style.display = "none";
+  overlay.style.display = "none";
+});
+
+returnNo.addEventListener("click", () => {
+  localStorage.removeItem("lastGame");
+  returnContainer.style.display = "none";
+  overlay.style.display = "none";
+});
 
 document.addEventListener(
   "touchmove",
@@ -80,11 +104,13 @@ function handleMove(source, target) {
       const boardFen = board1.fen(); // Get the updated board position
       const fullFen = `${boardFen} w - - 0 1`; // Dummy values for turn, castling, etc.
       game.load(fullFen);
+      localStorage.setItem("lastGame", fullFen);
       updateStatus();
     }, 0); // Delay to let the board update first
 
     return;
   }
+  localStorage.setItem("lastGame", game.fen());
 
   if (piece.type === "p" && (target[1] === "1" || target[1] === "8")) {
     showPromotionMenu();
@@ -101,6 +127,8 @@ function makeMove(source, target, promotion = "q") {
     to: target,
     promotion: promotion, // Use selected promotion piece
   });
+
+  localStorage.setItem("lastGame", game.fen());
 
   if (move.captured && !game.in_check() && !game.in_checkmate()) {
     killAudio.play();
