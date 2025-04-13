@@ -83,6 +83,7 @@ function hidePromotionMenu() {
 }
 
 function handleMove(source, target) {
+  console.log(game.turn());
   const piece = game.get(source);
 
   const move = game.move({
@@ -140,13 +141,7 @@ function makeMove(source, target, promotion = "q") {
 
   if (flipBoard.checked) {
     // Flip board if needed
-    if (game.turn() === "b" && !isFlipped) {
-      board1.flip();
-      isFlipped = true;
-    } else if (game.turn() === "w" && isFlipped) {
-      board1.flip();
-      isFlipped = false;
-    }
+    flipBoardFunc();
   }
   if (!freeMove.checked) {
     board1.position(game.fen()); // Update board
@@ -183,13 +178,7 @@ function updateStatus() {
 
 function resetBoard() {
   game.reset();
-  if (game.turn() === "b" && !isFlipped) {
-    board1.flip();
-    isFlipped = true;
-  } else if (game.turn() === "w" && isFlipped) {
-    board1.flip();
-    isFlipped = false;
-  }
+  flipBoardFunc();
   board1.position(game.fen());
   updateStatus();
 }
@@ -212,15 +201,21 @@ overlay.addEventListener("click", () => {
 
 function undoMove() {
   game.undo();
-  if (game.turn() === "b" && !isFlipped) {
-    board1.flip();
-    isFlipped = true;
-  } else if (game.turn() === "w" && isFlipped) {
-    board1.flip();
-    isFlipped = false;
-  }
+  flipBoardFunc();
   board1.position(game.fen());
   updateStatus();
+}
+
+function flipBoardFunc() {
+  if (flipBoard.checked) {
+    if (game.turn() === "b" && !isFlipped) {
+      board1.flip();
+      isFlipped = true;
+    } else if (game.turn() === "w" && isFlipped) {
+      board1.flip();
+      isFlipped = false;
+    }
+  }
 }
 
 undoButton.addEventListener("click", undoMove);
