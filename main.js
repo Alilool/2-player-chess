@@ -15,11 +15,23 @@ const closeSettingsBtn = document.getElementById("close-settings-btn");
 const returnYes = document.getElementById("yes");
 const returnNo = document.getElementById("no");
 const returnContainer = document.getElementById("returnLastGame");
-
+const welcome = document.getElementById("welcome");
+const start = document.getElementById("start");
+const hideWelcome = document.getElementById("hideWelcome");
 document.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("lastGame")) {
-    returnContainer.style.display = "block";
+  let hideWelcomeCheck = false;
+  if (localStorage.getItem("hideWelcome")) {
+    hideWelcomeCheck = JSON.parse(localStorage.getItem("hideWelcome"));
+  }
+
+  if (!hideWelcomeCheck) {
+    welcome.style.display = "block";
     overlay.style.display = "block";
+  } else {
+    if (localStorage.getItem("lastGame")) {
+      returnContainer.style.display = "block";
+      overlay.style.display = "block";
+    }
   }
 });
 
@@ -30,6 +42,19 @@ const config = {
   dropOffBoard: "trash",
   onDrop: handleMove,
 };
+
+start.addEventListener("click", () => {
+  welcome.style.display = "none";
+  overlay.style.display = "none";
+  if (localStorage.getItem("lastGame")) {
+    returnContainer.style.display = "block";
+    overlay.style.display = "block";
+  }
+});
+hideWelcome.addEventListener("change", () => {
+  hideWelcomeCheck = hideWelcome.checked;
+  localStorage.setItem("hideWelcome", JSON.stringify(hideWelcomeCheck));
+});
 
 const overlay = document.createElement("div");
 overlay.id = "overlay";
@@ -201,6 +226,8 @@ closeSettingsBtn.addEventListener("click", () => {
 overlay.addEventListener("click", () => {
   settingsMenu.style.display = "none";
   overlay.style.display = "none";
+  returnContainer.style.display = "none";
+  welcome.style.display = "none";
 });
 
 function undoMove() {

@@ -195,7 +195,7 @@ input {
   margin-top: 20px;
 }
 
-.returnLastGame {
+.menu {
   display: none;
   position: fixed;
   top: 50%;
@@ -209,9 +209,25 @@ input {
   z-index: 10;
   width: 15vw;
 }
-.returnLastGame h2 {
+.menu h2 {
   margin: 20px;
   font-size: 22px;
+}
+.menu p {
+  margin: 10px;
+  font-size: 1.1em;
+}
+#welcome {
+  min-width: 450px;
+}
+#welcome div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#welcome div label {
+  font-size: 1.1em;
+  margin: 0 5px;
 }
 
 /* Responsive */
@@ -229,9 +245,6 @@ input {
   .control {
     font-size: 1.2em;
   }
-  h1 {
-    font-size: 2em;
-  }
 }
 
 @media (max-width: 650px) {
@@ -245,9 +258,6 @@ input {
     font-size: 1.2em;
   }
   .control {
-    font-size: 1em;
-  }
-  h1 {
     font-size: 1em;
   }
 }
@@ -276,9 +286,6 @@ input {
   .notation {
     font-size: 1em;
   }
-  h1 {
-    font-size: 1.5em;
-  }
 }
 
 @media (max-height: 550px) and (min-width: 1300px) {
@@ -303,9 +310,6 @@ input {
     font-size: 1.7em;
   }
   .notation {
-    font-size: 1.7em;
-  }
-  h1 {
     font-size: 1.7em;
   }
 }
@@ -334,15 +338,12 @@ input {
   .notation {
     font-size: 1.7em;
   }
-  h1 {
-    font-size: 1.7em;
-  }
 }
 @media (max-width: 1200px) {
   .settings-menu {
     width: 40%;
   }
-  .returnLastGame {
+  .menu {
     width: 30%;
   }
 }
@@ -350,7 +351,7 @@ input {
   .settings-menu {
     width: 100%;
   }
-  .returnLastGame {
+  .menu {
     width: 100%;
   }
 }
@@ -359,7 +360,7 @@ input {
   .settings-menu {
     width: 80%;
   }
-  .returnLastGame {
+  .menu {
     width: 60%;
   }
 }

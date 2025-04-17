@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2 Player Chess</title>
+    <title>MindMate</title>
     <link rel="stylesheet" href="./css/chessboard-0.3.0.min.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/x-icon" href="./favicon.ico" />
@@ -13,7 +13,7 @@
   <body>
     <div class="container">
       <div class="board-container">
-        <h1>2 Player Chess</h1>
+        <h1>MindMate</h1>
         <div id="board"></div>
       </div>
       <div>
@@ -46,10 +46,23 @@
           </p>
           <button id="close-settings-btn" class="control">Close</button>
         </div>
-        <div id="returnLastGame" class="returnLastGame">
+        <div id="returnLastGame" class="menu">
           <h2>Do you want to return the last game?</h2>
           <button id="yes" class="control">Yes</button>
           <button id="no" class="control">No</button>
+        </div>
+        <div id="welcome" class="menu">
+          <h2>Welcome to MindMate</h2>
+          <p>
+            Sharpen your tactics and challenge a friend in this classic 2-player
+            chess experience.
+          </p>
+          <p>Ready to claim victory on the board?</p>
+          <div>
+            <label for="hideWelcome">Don't show this again:</label>
+            <input type="checkbox" id="hideWelcome" /><br />
+          </div>
+          <button class="control" id="start">Start Game</button>
         </div>
 
         <p id="credit">
