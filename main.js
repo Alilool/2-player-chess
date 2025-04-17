@@ -161,7 +161,11 @@ promotionButtons.forEach((button) => {
 });
 
 function updateStatus() {
-  if (game.in_checkmate()) {
+  if (game.in_check()) {
+    statusElement.innerHTML = `<span class="color" id="${
+      game.turn() === "w" ? "white" : "black"
+    }">${game.turn() === "w" ? "White" : "Black"}</span> in check`;
+  } else if (game.in_checkmate()) {
     statusElement.innerHTML = `Checkmate! ${
       game.turn() === "w"
         ? "<span id='black'>Black</span>"
