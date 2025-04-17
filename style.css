@@ -260,6 +260,9 @@ input {
   .control {
     font-size: 1em;
   }
+  #welcome {
+    min-width: 350px;
+  }
 }
 
 @media (max-height: 550px) and (max-width: 1300px) {
