@@ -28,7 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
     welcome.style.display = "block";
     overlay.style.display = "block";
   } else {
-    if (localStorage.getItem("lastGame")) {
+    if (
+      localStorage.getItem("lastGame") &&
+      localStorage.getItem("lastGame") !==
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    ) {
       returnContainer.style.display = "block";
       overlay.style.display = "block";
     }
@@ -46,7 +50,11 @@ const config = {
 start.addEventListener("click", () => {
   welcome.style.display = "none";
   overlay.style.display = "none";
-  if (localStorage.getItem("lastGame")) {
+  if (
+    localStorage.getItem("lastGame") &&
+    localStorage.getItem("lastGame") !==
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  ) {
     returnContainer.style.display = "block";
     overlay.style.display = "block";
   }
@@ -64,7 +72,6 @@ const game = new Chess(); // Create a chess game instance
 let board1 = ChessBoard("board", config);
 let pendingMove = null; // Store move that needs promotion
 let isFlipped = false; // Track if the board is flipped
-
 returnYes.addEventListener("click", () => {
   game.load(localStorage.getItem("lastGame"));
   board1.position(localStorage.getItem("lastGame"));
@@ -209,6 +216,7 @@ function resetBoard() {
   game.reset();
   flipBoardFunc();
   board1.position(game.fen());
+  localStorage.removeItem("lastGame");
   updateStatus();
 }
 
@@ -234,6 +242,7 @@ function undoMove() {
   game.undo();
   flipBoardFunc();
   board1.position(game.fen());
+  localStorage.setItem("lastGame", game.fen());
   updateStatus();
 }
 
