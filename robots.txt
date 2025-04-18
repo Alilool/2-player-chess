@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alilool.github.io/MindMate/sitemap.xml
