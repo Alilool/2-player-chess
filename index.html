@@ -2,15 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta
       name="description"
-      content="MindMate is an interactive 2-player chess game to sharpen your chess tactics."
+      content="MindMate is a free, interactive 2-player online chess game. Challenge your friends and sharpen your chess skills on a sleek, mobile-friendly board."
     />
     <meta
       name="keywords"
-      content="chess, MindMate, 2-player, game, chessboard"
+      content="chess, MindMate, 2-player, game, chessboard, chessgame, online"
     />
+    <meta name="author" content="Ali Elsayed" />
     <meta
       name="google-site-verification"
       content="_BiLdrBWtRYIrmM_rn4GD2boXyV6yIINYC3dFgGGdbE"
@@ -18,7 +22,7 @@
     <meta property="og:title" content="MindMate" />
     <meta
       property="og:description"
-      content="Sharpen your tactics and challenge a friend in this classic 2-player chess experience. Ready to claim victory on the board?"
+      content="MindMate is a free, interactive 2-player online chess game. Challenge your friends and sharpen your chess skills on a sleek, mobile-friendly board."
     />
     <meta
       property="og:image"
@@ -26,7 +30,27 @@
     />
     <meta property="og:url" content="https://alilool.github.io/MindMate/" />
     <meta property="og:type" content="website" />
-    <title>MindMate</title>
+    <title>
+      MindMate - 2 Player Chess Game | Challenge Friends & Sharpen Tactics
+    </title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "MindMate",
+        "url": "https://alilool.github.io/MindMate/",
+        "author": {
+          "@type": "Person",
+          "name": "Ali Elsayed"
+        },
+        "description": "MindMate is a 2-player interactive online chess game where players can challenge friends and sharpen tactics.",
+        "genre": "Strategy",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "All",
+        "image": "https://raw.githubusercontent.com/Alilool/MindMate/refs/heads/main/favicon.ico"
+      }
+    </script>
+
     <link rel="stylesheet" href="./css/chessboard-0.3.0.min.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/x-icon" href="./favicon.ico" />
@@ -37,45 +61,91 @@
     <div class="container">
       <div class="board-container">
         <h1>MindMate</h1>
-        <div id="board"></div>
+        <div id="board" aria-label="Chess board"></div>
       </div>
       <div>
-        <div id="status"><span class="color">White</span> to move</div>
-        <div>
-          <button id="reset" class="control">Reset</button
-          ><button id="undo" class="control">Undo</button>
+        <div id="status" aria-live="polite">
+          <span class="color">White</span> to move
         </div>
-        <button id="settings-btn" class="control">Settings</button>
-        <!-- Settings Button -->
-
+        <div>
+          <button id="reset" class="control" aria-label="Reset game">
+            Reset
+          </button>
+          <button id="undo" class="control" aria-label="Undo last move">
+            Undo
+          </button>
+        </div>
+        <button id="settings-btn" class="control" aria-label="Open settings">
+          Settings
+        </button>
         <!-- Settings Window -->
-        <div id="settings-menu" class="settings-menu">
-          <h2>Settings</h2>
+        <div
+          id="settings-menu"
+          class="settings-menu"
+          role="dialog"
+          aria-labelledby="settings-heading"
+        >
+          <h2 id="settings-heading">Settings</h2>
           <div class="checkbox-container">
-            <label for="notation">Show notation: </label>
-            <input name="notation" id="notation" type="checkbox" />
+            <label for="notation">Show notation:</label>
+            <input
+              name="notation"
+              id="notation"
+              type="checkbox"
+              aria-label="Show chess notation"
+            />
           </div>
           <div class="checkbox-container">
-            <label for="freeMove">Move freely: </label>
-            <input name="freeMove" id="freeMove" type="checkbox" />
+            <label for="freeMove">Move freely:</label>
+            <input
+              name="freeMove"
+              id="freeMove"
+              type="checkbox"
+              aria-label="Enable free movement"
+            />
           </div>
           <div class="checkbox-container">
-            <label for="flipBoard">Flip board each turn: </label>
-            <input name="flipBoard" id="flipBoard" type="checkbox" />
+            <label for="flipBoard">Flip board each turn:</label>
+            <input
+              name="flipBoard"
+              id="flipBoard"
+              type="checkbox"
+              aria-label="Flip board on each turn"
+            />
           </div>
           <p>
             <span id="warning">Warning</span>: Changing notation will reset the
             game
           </p>
-          <button id="close-settings-btn" class="control">Close</button>
+          <button
+            id="close-settings-btn"
+            class="control"
+            aria-label="Close settings"
+          >
+            Close
+          </button>
         </div>
-        <div id="returnLastGame" class="menu">
-          <h2>Do you want to return the last game?</h2>
-          <button id="yes" class="control">Yes</button>
-          <button id="no" class="control">No</button>
+        <div
+          id="returnLastGame"
+          class="menu"
+          role="dialog"
+          aria-labelledby="return-heading"
+        >
+          <h2 id="return-heading">Do you want to return the last game?</h2>
+          <button id="yes" class="control" aria-label="Return to last game">
+            Yes
+          </button>
+          <button id="no" class="control" aria-label="Start a new game">
+            No
+          </button>
         </div>
-        <div id="welcome" class="menu">
-          <h2>Welcome to MindMate</h2>
+        <div
+          id="welcome"
+          class="menu"
+          role="dialog"
+          aria-labelledby="welcome-heading"
+        >
+          <h2 id="welcome-heading">Welcome to MindMate</h2>
           <p>
             Sharpen your tactics and challenge a friend in this classic 2-player
             chess experience.
@@ -83,31 +153,54 @@
           <p>Ready to claim victory on the board?</p>
           <div>
             <label for="hideWelcome">Don't show this again:</label>
-            <input type="checkbox" id="hideWelcome" /><br />
+            <input
+              type="checkbox"
+              id="hideWelcome"
+              aria-label="Hide welcome screen on future visits"
+            /><br />
           </div>
-          <button class="control" id="start">Start Game</button>
+          <button class="control" id="start" aria-label="Start game">
+            Start Game
+          </button>
         </div>
 
         <p id="credit">
           Created by:
-          <a href="https://github.com/Alilool" target="_blank">Ali Elsayed</a>
+          <a
+            href="https://github.com/Alilool"
+            target="_blank"
+            aria-label="Visit Ali Elsayed's GitHub page"
+            >Ali Elsayed</a
+          >
         </p>
       </div>
     </div>
 
     <!-- Overlay and Promotion Menu -->
-    <div id="overlay"></div>
-    <div id="promotion-menu">
-      <h2>Promotion</h2>
+    <div id="overlay" aria-hidden="true"></div>
+    <div id="promotion-menu" role="dialog" aria-labelledby="promotion-heading">
+      <h2 id="promotion-heading">Promotion</h2>
       <p>Choose a piece:</p>
-      <button class="promo-btn" data-piece="q">♛ Queen</button>
-      <button class="promo-btn" data-piece="r">♜ Rook</button>
-      <button class="promo-btn" data-piece="b">♝ Bishop</button>
-      <button class="promo-btn" data-piece="n">♞ Knight</button>
+      <button class="promo-btn" data-piece="q" aria-label="Promote to Queen">
+        ♛ Queen
+      </button>
+      <button class="promo-btn" data-piece="r" aria-label="Promote to Rook">
+        ♜ Rook
+      </button>
+      <button class="promo-btn" data-piece="b" aria-label="Promote to Bishop">
+        ♝ Bishop
+      </button>
+      <button class="promo-btn" data-piece="n" aria-label="Promote to Knight">
+        ♞ Knight
+      </button>
     </div>
-    <audio id="checkmateAudio" src="./sounds/checkmate.mp3"></audio>
-    <audio id="moveAudio" src="./sounds/moveSFX.mp3"></audio>
-    <audio id="killAudio" src="./sounds/killSFX.mp3"></audio>
+    <audio
+      id="checkmateAudio"
+      src="./sounds/checkmate.mp3"
+      aria-hidden="true"
+    ></audio>
+    <audio id="moveAudio" src="./sounds/moveSFX.mp3" aria-hidden="true"></audio>
+    <audio id="killAudio" src="./sounds/killSFX.mp3" aria-hidden="true"></audio>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="./main.js"></script>
