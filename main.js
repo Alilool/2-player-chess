@@ -115,7 +115,6 @@ function hidePromotionMenu() {
 }
 
 function handleMove(source, target) {
-  console.log(game.turn());
   const piece = game.get(source);
 
   const move = game.move({
