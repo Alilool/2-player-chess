@@ -18,6 +18,7 @@ const returnContainer = document.getElementById("returnLastGame");
 const welcome = document.getElementById("welcome");
 const start = document.getElementById("start");
 const hideWelcome = document.getElementById("hideWelcome");
+const sparePieces = document.getElementsByClassName("spare-pieces-7492f");
 document.addEventListener("DOMContentLoaded", () => {
   let hideWelcomeCheck = false;
   if (localStorage.getItem("hideWelcome")) {
@@ -44,8 +45,15 @@ const config = {
   position: "start",
   showNotation: false,
   dropOffBoard: "trash",
+  sparePieces: true,
   onDrop: handleMove,
 };
+
+freeMove.addEventListener("change", () => {
+  console.log(freeMove.checked);
+  sparePieces[0].style.display = freeMove.checked ? "block" : "none";
+  sparePieces[1].style.display = freeMove.checked ? "block" : "none";
+});
 
 start.addEventListener("click", () => {
   welcome.style.display = "none";

@@ -230,6 +230,12 @@ input {
   font-size: 1.1em;
   margin: 0 5px;
 }
+.spare-pieces-7492f {
+  display: none;
+  padding-left: 0 !important;
+  background-color: #b7b7b742;
+  margin: 10px 0 !important;
+}
 
 /* Responsive */
 
