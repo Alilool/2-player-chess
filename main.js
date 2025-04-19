@@ -50,7 +50,6 @@ const config = {
 };
 
 freeMove.addEventListener("change", () => {
-  console.log(freeMove.checked);
   sparePieces[0].style.display = freeMove.checked ? "block" : "none";
   sparePieces[1].style.display = freeMove.checked ? "block" : "none";
 });
@@ -108,6 +107,7 @@ notation.addEventListener("change", () => {
   config.showNotation = notation.checked; // Update config
   resetBoard();
   board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
+  updateStatus();
 });
 
 // Show the promotion menu and overlay
@@ -200,6 +200,8 @@ promotionButtons.forEach((button) => {
 });
 
 function updateStatus() {
+  sparePieces[0].style.display = freeMove.checked ? "block" : "none";
+  sparePieces[1].style.display = freeMove.checked ? "block" : "none";
   if (game.in_check()) {
     statusElement.innerHTML = `<span class="color" id="${
       game.turn() === "w" ? "white" : "black"
