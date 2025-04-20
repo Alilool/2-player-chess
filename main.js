@@ -34,6 +34,17 @@ const config = {
   onDrop: handleMove,
 };
 
+if (localStorage.getItem("isFlipped") === "true") {
+  flipBoard.checked = true;
+}
+if (localStorage.getItem("notation") === "true") {
+  notation.checked = true;
+  config.showNotation = true;
+}
+if (localStorage.getItem("playWithAI") === "true") {
+  playWithAI.checked = true;
+}
+
 const game = new Chess(); // Create a chess game instance
 let board1 = ChessBoard("board", config);
 let pendingMove = null; // Store move that needs promotion
@@ -176,6 +187,10 @@ returnNo.addEventListener("click", () => {
   overlay.style.display = "none";
 });
 
+flipBoard.addEventListener("change", () => {
+  localStorage.setItem("flipBoard", flipBoard.checked);
+});
+
 document.addEventListener(
   "touchmove",
   function (event) {
@@ -188,6 +203,7 @@ document.addEventListener(
 
 notation.addEventListener("change", () => {
   config.showNotation = notation.checked; // Update config
+  localStorage.setItem("notation", notation.checked);
   resetBoard();
   board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
   updateStatus();
@@ -299,6 +315,13 @@ function updateStatus() {
       game.turn() === "w" ? "white" : "black"
     }">${game.turn() === "w" ? "White" : "Black"}</span> in check`;
   } else if (game.in_check() && game.in_checkmate()) {
+    if (playWithAI.checked) {
+      statusElement.innerHTML = `Checkmate! ${
+        game.turn() === "w"
+          ? "<span id='black'>MindMate AI</span>"
+          : "<span id='white'>White</span>"
+      } wins!`;
+    }
     statusElement.innerHTML = `Checkmate! ${
       game.turn() === "w"
         ? "<span id='black'>Black</span>"
