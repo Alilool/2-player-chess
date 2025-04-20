@@ -133,7 +133,6 @@ playWithAI.addEventListener("change", () => {
   settingsMenu.style.display = playWithAI.checked ? "none" : "block";
   localStorage.setItem("playWithAI", playWithAI.checked);
   resetBoard();
-  undoButton.style.display = playWithAI.checked ? "none" : "inline";
   board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
   updateStatus();
 });
@@ -171,7 +170,6 @@ returnYes.addEventListener("click", () => {
     playWithAI.checked = true;
     depth = localStorage.getItem("depth");
     console.log(depth);
-    undoButton.style.display = "none";
     if (game.turn() === "b") {
       getBotMove();
     }
@@ -388,7 +386,14 @@ function flipBoardFunc() {
   }
 }
 
-undoButton.addEventListener("click", undoMove);
+undoButton.addEventListener("click", () => {
+  if (playWithAI.checked) {
+    undoMove();
+    undoMove();
+  } else {
+    undoMove();
+  }
+});
 resetButton.addEventListener("click", resetBoard);
 
 updateStatus();
