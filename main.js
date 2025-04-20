@@ -19,6 +19,43 @@ const welcome = document.getElementById("welcome");
 const start = document.getElementById("start");
 const hideWelcome = document.getElementById("hideWelcome");
 const sparePieces = document.getElementsByClassName("spare-pieces-7492f");
+const playWithAI = document.getElementById("PlayWithAI");
+
+const config = {
+  draggable: true,
+  position: "start",
+  showNotation: false,
+  dropOffBoard: "trash",
+  sparePieces: true,
+  onDrop: handleMove,
+};
+
+const game = new Chess(); // Create a chess game instance
+let board1 = ChessBoard("board", config);
+let pendingMove = null; // Store move that needs promotion
+let isFlipped = false; // Track if the board is flipped
+
+function getBotMove() {
+  fetch(
+    `https://stockfish.online/api/s/v2.php?fen=${encodeURIComponent(
+      game.fen()
+    )}&depth=12`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data.bestmove) {
+        const bestMoveStr = data.bestmove;
+        const parts = bestMoveStr.split(" ");
+        const move = parts[1];
+
+        const from = move.substring(0, 2);
+        const to = move.substring(2, 4);
+        makeMove(from, to);
+        board1.position(game.fen());
+      }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   let hideWelcomeCheck = false;
   if (localStorage.getItem("hideWelcome")) {
@@ -40,14 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-const config = {
-  draggable: true,
-  position: "start",
-  showNotation: false,
-  dropOffBoard: "trash",
-  sparePieces: true,
-  onDrop: handleMove,
-};
+playWithAI.addEventListener("change", () => {
+  localStorage.setItem("playWithAI", playWithAI.checked);
+  resetBoard();
+  undoButton.style.display = playWithAI.checked ? "none" : "inline";
+  board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
+  updateStatus();
+});
 
 freeMove.addEventListener("change", () => {
   sparePieces[0].style.display = freeMove.checked ? "block" : "none";
@@ -67,7 +103,7 @@ start.addEventListener("click", () => {
   }
 });
 hideWelcome.addEventListener("change", () => {
-  hideWelcomeCheck = hideWelcome.checked;
+  let hideWelcomeCheck = hideWelcome.checked;
   localStorage.setItem("hideWelcome", JSON.stringify(hideWelcomeCheck));
 });
 
@@ -75,13 +111,16 @@ const overlay = document.createElement("div");
 overlay.id = "overlay";
 document.body.appendChild(overlay);
 
-const game = new Chess(); // Create a chess game instance
-let board1 = ChessBoard("board", config);
-let pendingMove = null; // Store move that needs promotion
-let isFlipped = false; // Track if the board is flipped
 returnYes.addEventListener("click", () => {
   game.load(localStorage.getItem("lastGame"));
   board1.position(localStorage.getItem("lastGame"));
+  if (localStorage.getItem("playWithAI") === "true") {
+    playWithAI.checked = true;
+    undoButton.style.display = "none";
+    if (game.turn() === "b") {
+      getBotMove();
+    }
+  }
   updateStatus();
   returnContainer.style.display = "none";
   overlay.style.display = "none";
@@ -137,6 +176,10 @@ function handleMove(source, target) {
     }
   }
 
+  if (playWithAI.checked && game.turn() === "w") {
+    return "snapback";
+  }
+
   game.undo();
 
   if (freeMove.checked) {
@@ -168,14 +211,16 @@ function makeMove(source, target, promotion = "q") {
     promotion: promotion, // Use selected promotion piece
   });
 
-  localStorage.setItem("lastGame", game.fen());
+  if (move) {
+    localStorage.setItem("lastGame", game.fen());
 
-  if (move.captured && !game.in_check() && !game.in_checkmate()) {
-    killAudio.play();
-  } else if (game.in_check() || game.in_checkmate()) {
-    checkmateAudio.play();
-  } else {
-    moveAudio.play();
+    if (move.captured && !game.in_check() && !game.in_checkmate()) {
+      killAudio.play();
+    } else if (game.in_check() || game.in_checkmate()) {
+      checkmateAudio.play();
+    } else {
+      moveAudio.play();
+    }
   }
 
   if (flipBoard.checked) {
@@ -186,6 +231,9 @@ function makeMove(source, target, promotion = "q") {
     board1.position(game.fen()); // Update board
   }
   updateStatus();
+  if (game.turn() === "b" && playWithAI.checked) {
+    getBotMove();
+  }
 }
 
 // Handle promotion selection
@@ -202,11 +250,11 @@ promotionButtons.forEach((button) => {
 function updateStatus() {
   sparePieces[0].style.display = freeMove.checked ? "block" : "none";
   sparePieces[1].style.display = freeMove.checked ? "block" : "none";
-  if (game.in_check()) {
+  if (game.in_check() && !game.in_checkmate()) {
     statusElement.innerHTML = `<span class="color" id="${
       game.turn() === "w" ? "white" : "black"
     }">${game.turn() === "w" ? "White" : "Black"}</span> in check`;
-  } else if (game.in_checkmate()) {
+  } else if (game.in_check() && game.in_checkmate()) {
     statusElement.innerHTML = `Checkmate! ${
       game.turn() === "w"
         ? "<span id='black'>Black</span>"
@@ -215,9 +263,14 @@ function updateStatus() {
   } else if (game.in_draw()) {
     statusElement.innerHTML = "It's a draw!";
   } else {
-    statusElement.innerHTML = `<span class="color" id="${
-      game.turn() === "w" ? "white" : "black"
-    }">${game.turn() === "w" ? "White" : "Black"}</span> to move`;
+    if (playWithAI.checked && game.turn() === "b") {
+      statusElement.innerHTML =
+        '<span id="black">MindMate AI</span> is thinking...';
+    } else {
+      statusElement.innerHTML = `<span class="color" id="${
+        game.turn() === "w" ? "white" : "black"
+      }">${game.turn() === "w" ? "White" : "Black"}</span> to move`;
+    }
   }
 }
 
