@@ -20,6 +20,10 @@ const start = document.getElementById("start");
 const hideWelcome = document.getElementById("hideWelcome");
 const sparePieces = document.getElementsByClassName("spare-pieces-7492f");
 const playWithAI = document.getElementById("PlayWithAI");
+const difficultyMenu = document.getElementById("difficulty-menu");
+const easy = document.getElementById("easy");
+const medium = document.getElementById("medium");
+const hard = document.getElementById("hard");
 
 const config = {
   draggable: true,
@@ -34,12 +38,13 @@ const game = new Chess(); // Create a chess game instance
 let board1 = ChessBoard("board", config);
 let pendingMove = null; // Store move that needs promotion
 let isFlipped = false; // Track if the board is flipped
+let depth = null;
 
 function getBotMove() {
   fetch(
     `https://stockfish.online/api/s/v2.php?fen=${encodeURIComponent(
       game.fen()
-    )}&depth=12`
+    )}&depth=${depth}`
   )
     .then((res) => res.json())
     .then((data) => {
@@ -54,6 +59,41 @@ function getBotMove() {
         board1.position(game.fen());
       }
     });
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+easy.addEventListener("click", () => {
+  difficultyMenu.style.display = "none";
+  overlay.style.display = "none";
+  setDepth("easy");
+});
+medium.addEventListener("click", () => {
+  difficultyMenu.style.display = "none";
+  overlay.style.display = "none";
+  setDepth("medium");
+});
+hard.addEventListener("click", () => {
+  difficultyMenu.style.display = "none";
+  overlay.style.display = "none";
+  setDepth("hard");
+});
+
+function setDepth(difficulty) {
+  if (difficulty === "easy") {
+    depth = getRandomInt(4, 6); // Easy mode
+    localStorage.setItem("depth", depth);
+  } else if (difficulty === "medium") {
+    depth = getRandomInt(9, 11); // Medium mode
+    localStorage.setItem("depth", depth);
+  } else if (difficulty === "hard") {
+    depth = getRandomInt(14, 15); // Hard mode
+    localStorage.setItem("depth", depth);
+  }
+  console.log(depth);
+  return depth;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -78,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 playWithAI.addEventListener("change", () => {
+  difficultyMenu.style.display = playWithAI.checked ? "block" : "none";
+  settingsMenu.style.display = playWithAI.checked ? "none" : "block";
   localStorage.setItem("playWithAI", playWithAI.checked);
   resetBoard();
   undoButton.style.display = playWithAI.checked ? "none" : "inline";
@@ -116,6 +158,8 @@ returnYes.addEventListener("click", () => {
   board1.position(localStorage.getItem("lastGame"));
   if (localStorage.getItem("playWithAI") === "true") {
     playWithAI.checked = true;
+    depth = localStorage.getItem("depth");
+    console.log(depth);
     undoButton.style.display = "none";
     if (game.turn() === "b") {
       getBotMove();
@@ -298,6 +342,7 @@ overlay.addEventListener("click", () => {
   overlay.style.display = "none";
   returnContainer.style.display = "none";
   welcome.style.display = "none";
+  difficultyMenu.style.display = "none";
 });
 
 function undoMove() {

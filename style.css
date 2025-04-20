@@ -70,7 +70,7 @@ h1 {
 }
 
 /* Promotion Menu */
-#promotion-menu {
+.Choose-menu {
   display: none;
   position: fixed;
   top: 50%;
@@ -85,12 +85,36 @@ h1 {
   width: 250px;
 }
 
-#promotion-menu h2 {
+.Choose-menu h2 {
   margin-top: 0;
   font-size: 22px;
 }
 
-.promo-btn {
+#easy {
+  background-color: rgb(11, 214, 0);
+}
+
+#easy:hover {
+  background-color: rgb(11, 195, 2);
+}
+
+#medium {
+  background-color: rgb(244, 215, 0);
+}
+
+#medium:hover {
+  background-color: rgb(244, 195, 0);
+}
+
+#hard {
+  background-color: rgb(255, 0, 0);
+}
+
+#hard:hover {
+  background-color: rgb(237, 0, 0);
+}
+
+.Choose-btn {
   display: block;
   width: 100%;
   margin: 5px 0;
