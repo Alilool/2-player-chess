@@ -24,6 +24,16 @@ const difficultyMenu = document.getElementById("difficulty-menu");
 const easy = document.getElementById("easy");
 const medium = document.getElementById("medium");
 const hard = document.getElementById("hard");
+const resetMenu = document.getElementById("reset-menu");
+const resetYes = document.getElementById("reset-yes");
+const resetNo = document.getElementById("reset-no");
+const winnerMenu = document.getElementById("winner-menu");
+const playAgainBtn = document.getElementById("play-again-btn");
+const closeBtn = document.getElementById("close-btn");
+const winnerMessageContainer = document.getElementById(
+  "winner-message-container"
+);
+const winnerMessage = document.getElementById("winner-message");
 
 const config = {
   draggable: true,
@@ -49,7 +59,7 @@ const game = new Chess(); // Create a chess game instance
 let board1 = ChessBoard("board", config);
 let pendingMove = null; // Store move that needs promotion
 let isFlipped = false; // Track if the board is flipped
-let depth = null;
+let depth = playWithAI.checked ? localStorage.getItem("depth") : null;
 
 function getBotMove() {
   fetch(
@@ -103,9 +113,19 @@ function setDepth(difficulty) {
     depth = getRandomInt(14, 15); // Hard mode
     localStorage.setItem("depth", depth);
   }
-  console.log(depth);
   return depth;
 }
+
+playAgainBtn.addEventListener("click", () => {
+  winnerMenu.style.display = "none";
+  overlay.style.display = "none";
+  resetBoard();
+});
+
+closeBtn.addEventListener("click", () => {
+  winnerMenu.style.display = "none";
+  overlay.style.display = "none";
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   let hideWelcomeCheck = false;
@@ -126,6 +146,32 @@ document.addEventListener("DOMContentLoaded", () => {
       overlay.style.display = "block";
     }
   }
+});
+undoButton.addEventListener("click", () => {
+  if (playWithAI.checked) {
+    undoMove();
+    undoMove();
+  } else {
+    undoMove();
+  }
+});
+resetButton.addEventListener("click", () => {
+  if (
+    game.fen() !== "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  ) {
+    resetMenu.style.display = "block";
+    overlay.style.display = "block";
+  }
+});
+
+resetYes.addEventListener("click", () => {
+  resetMenu.style.display = "none";
+  overlay.style.display = "none";
+  resetBoard();
+});
+resetNo.addEventListener("click", () => {
+  resetMenu.style.display = "none";
+  overlay.style.display = "none";
 });
 
 playWithAI.addEventListener("change", () => {
@@ -234,7 +280,7 @@ function handleMove(source, target) {
     }
   }
 
-  if (playWithAI.checked && game.turn() === "w") {
+  if (playWithAI.checked && game.turn() === "w" && !freeMove.checked) {
     return "snapback";
   }
 
@@ -313,24 +359,27 @@ function updateStatus() {
       game.turn() === "w" ? "white" : "black"
     }">${game.turn() === "w" ? "White" : "Black"}</span> in check`;
   } else if (game.in_check() && game.in_checkmate()) {
-    if (playWithAI.checked) {
-      statusElement.innerHTML = `Checkmate! ${
-        game.turn() === "w"
-          ? "<span id='black'>MindMate AI</span>"
-          : "<span id='white'>White</span>"
-      } wins!`;
-    }
-    statusElement.innerHTML = `Checkmate! ${
-      game.turn() === "w"
-        ? "<span id='black'>Black</span>"
-        : "<span id='white'>White</span>"
-    } wins!`;
+    statusElement.innerHTML = `Checkmate! <span class="color" id="${
+      game.turn() === "w" ? "black" : "white"
+    }">${game.turn() === "w" ? "Black" : "White"}</span> Wins!`;
+    winnerMessageContainer.style.backgroundColor = `${
+      game.turn() === "w" ? "#ececec" : "#454545"
+    }`;
+    winnerMessageContainer.style.color = `${
+      game.turn() === "w" ? "#454545" : "#ececec"
+    }`;
+    winnerMessage.innerHTML = `Checkmate! <span class="color"
+    }">${game.turn() === "w" ? "Black" : "White"}</span> wins!`;
+    winnerMenu.style.display = "block";
+    setTimeout(() => {
+      overlay.style.display = "block";
+    }, 0);
   } else if (game.in_draw()) {
     statusElement.innerHTML = "It's a draw!";
   } else {
     if (playWithAI.checked && game.turn() === "b") {
       statusElement.innerHTML =
-        '<span id="black">MindMate AI</span> is thinking...';
+        '<span class="color" id="black">MindMate AI</span> is thinking...';
     } else {
       statusElement.innerHTML = `<span class="color" id="${
         game.turn() === "w" ? "white" : "black"
@@ -364,6 +413,11 @@ overlay.addEventListener("click", () => {
   returnContainer.style.display = "none";
   welcome.style.display = "none";
   difficultyMenu.style.display = "none";
+  resetMenu.style.display = "none";
+  winnerMenu.style.display = "none";
+  if (promotionMenu.style.display === "block") {
+    overlay.style.display = "block";
+  }
 });
 
 function undoMove() {
@@ -385,15 +439,5 @@ function flipBoardFunc() {
     }
   }
 }
-
-undoButton.addEventListener("click", () => {
-  if (playWithAI.checked) {
-    undoMove();
-    undoMove();
-  } else {
-    undoMove();
-  }
-});
-resetButton.addEventListener("click", resetBoard);
 
 updateStatus();

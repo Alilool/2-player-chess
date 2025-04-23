@@ -155,6 +155,25 @@
             Close
           </button>
         </div>
+        <!-- Winner Menu -->
+        <div
+          id="winner-menu"
+          class="menu"
+          role="dialog"
+          aria-labelledby="winner-heading"
+        >
+          <div id="winner-message-container">
+            <h2 id="winner-heading">Game Over</h2>
+            <p id="winner-message">Checkmate! Black wins</p>
+          </div>
+          <button id="play-again-btn" class="control" aria-label="Play again">
+            Play Again
+          </button>
+          <button id="close-btn" class="control" aria-label="Exit game">
+            Close
+          </button>
+        </div>
+
         <div
           id="returnLastGame"
           class="menu"
@@ -166,6 +185,15 @@
             Yes
           </button>
           <button id="no" class="control" aria-label="Start a new game">
+            No
+          </button>
+        </div>
+        <div id="reset-menu" class="menu">
+          <h2>Are you sure you want to reset the game?</h2>
+          <button id="reset-yes" class="control" aria-label="Reset game">
+            Yes
+          </button>
+          <button id="reset-no" class="control" aria-label="Cancel reset">
             No
           </button>
         </div>

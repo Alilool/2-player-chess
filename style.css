@@ -260,6 +260,29 @@ input {
   background-color: #b7b7b742;
   margin: 10px 0 !important;
 }
+#winner-menu {
+  padding: 0;
+}
+
+#winner-menu button {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+#winner-menu h2 {
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+#winner-message {
+  font-size: 18px;
+}
+
+#winner-message-container {
+  background-color: #454545;
+  color: #ececec;
+  padding: 2px 0;
+  border-radius: 10px;
+}
 
 /* Responsive */
 
