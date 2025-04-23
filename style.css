@@ -128,10 +128,6 @@ h1 {
   border-radius: 5px;
   transition: background 0.3s;
 }
-#warning {
-  color: rgb(255, 0, 0);
-  font-weight: bold;
-}
 
 p {
   margin-top: 10px;

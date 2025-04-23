@@ -246,11 +246,11 @@ document.addEventListener(
 );
 
 notation.addEventListener("change", () => {
+  const currentFen = board1.fen(); // Get the current board position
   config.showNotation = notation.checked; // Update config
   localStorage.setItem("notation", notation.checked);
-  resetBoard();
   board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
-  updateStatus();
+  board1.position(currentFen);
 });
 
 // Show the promotion menu and overlay
