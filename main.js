@@ -362,20 +362,14 @@ function updateStatus() {
     statusElement.innerHTML = `Checkmate! <span class="color" id="${
       game.turn() === "w" ? "black" : "white"
     }">${game.turn() === "w" ? "Black" : "White"}</span> Wins!`;
-    winnerMessageContainer.style.backgroundColor = `${
-      game.turn() === "w" ? "#ececec" : "#454545"
-    }`;
-    winnerMessageContainer.style.color = `${
-      game.turn() === "w" ? "#454545" : "#ececec"
-    }`;
-    winnerMessage.innerHTML = `Checkmate! <span class="color"
-    }">${game.turn() === "w" ? "Black" : "White"}</span> wins!`;
-    winnerMenu.style.display = "block";
     setTimeout(() => {
-      overlay.style.display = "block";
-    }, 0);
+      showWinnerMenu(game.turn());
+    }, 300);
   } else if (game.in_draw()) {
     statusElement.innerHTML = "It's a draw!";
+    setTimeout(() => {
+      showWinnerMenu("draw");
+    }, 500);
   } else {
     if (playWithAI.checked && game.turn() === "b") {
       statusElement.innerHTML =
@@ -386,6 +380,28 @@ function updateStatus() {
       }">${game.turn() === "w" ? "White" : "Black"}</span> to move`;
     }
   }
+}
+
+function showWinnerMenu(end) {
+  if (end == "draw") {
+    winnerMessageContainer.style.backgroundColor = `${""}`;
+    winnerMessageContainer.style.color = `${"#878787"}`;
+    winnerMessage.innerHTML = "It's a draw!";
+    winnerMenu.style.display = "block";
+    setTimeout(() => {
+      overlay.style.display = "block";
+    }, 0);
+  }
+  winnerMessageContainer.style.backgroundColor = `${
+    end === "w" ? "#ececec" : "#454545"
+  }`;
+  winnerMessageContainer.style.color = `${end === "w" ? "#454545" : "#ececec"}`;
+  winnerMessage.innerHTML = `Checkmate! <span class="color"
+  }">${end === "w" ? "Black" : "White"}</span> wins!`;
+  winnerMenu.style.display = "block";
+  setTimeout(() => {
+    overlay.style.display = "block";
+  }, 0);
 }
 
 function resetBoard() {
