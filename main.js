@@ -34,6 +34,7 @@ const winnerMessageContainer = document.getElementById(
   "winner-message-container"
 );
 const winnerMessage = document.getElementById("winner-message");
+const winnerHeading = document.getElementById("winner-heading");
 
 const config = {
   draggable: true,
@@ -147,6 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
 undoButton.addEventListener("click", () => {
   if (playWithAI.checked) {
     undoMove();
@@ -384,24 +386,32 @@ function updateStatus() {
 
 function showWinnerMenu(end) {
   if (end == "draw") {
-    winnerMessageContainer.style.backgroundColor = `${""}`;
-    winnerMessageContainer.style.color = `${"#878787"}`;
-    winnerMessage.innerHTML = "It's a draw!";
+    winnerHeading.innerHTML = "It's a draw!";
+    winnerMessage.innerHTML = `<span class="color" style="font-size: 20px;">${
+      game.in_stalemate() ? " Stalemate!" : "Insufficient material!"
+    } </span>`;
+    winnerMenu.style.display = "block";
+    setTimeout(() => {
+      overlay.style.display = "block";
+    }, 0);
+  } else {
+    setTimeout(() => {
+      console.log(end);
+      winnerMessageContainer.style.backgroundColor = `${
+        end === "w" ? "#2c2c2c" : "#d8d8d8"
+      }`;
+      winnerMessageContainer.style.color = `${
+        end === "w" ? "#fff" : "#2c2c2c"
+      }`;
+    }, 0);
+
+    winnerMessage.innerHTML = `Checkmate! <span class="color"
+    }">${end === "w" ? "Black" : "White"}</span> wins!`;
     winnerMenu.style.display = "block";
     setTimeout(() => {
       overlay.style.display = "block";
     }, 0);
   }
-  winnerMessageContainer.style.backgroundColor = `${
-    end === "w" ? "#ececec" : "#454545"
-  }`;
-  winnerMessageContainer.style.color = `${end === "w" ? "#454545" : "#ececec"}`;
-  winnerMessage.innerHTML = `Checkmate! <span class="color"
-  }">${end === "w" ? "Black" : "White"}</span> wins!`;
-  winnerMenu.style.display = "block";
-  setTimeout(() => {
-    overlay.style.display = "block";
-  }, 0);
 }
 
 function resetBoard() {
