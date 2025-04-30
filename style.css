@@ -290,7 +290,7 @@ input {
 
 /* Responsive */
 
-@media (max-width: 1350px) {
+@media (max-width: 1300px) {
   #board {
     width: 80%;
   }
@@ -323,7 +323,7 @@ input {
   }
 }
 
-@media (max-height: 550px) and (max-width: 1300px) {
+@media (max-height: 810px) and (max-width: 1380px) {
   #board {
     width: 85%;
   }
@@ -349,7 +349,7 @@ input {
   }
 }
 
-@media (max-height: 550px) and (min-width: 1300px) {
+@media (max-height: 810px) and (min-width: 1300px) {
   #board {
     width: 70%;
   }
@@ -375,7 +375,7 @@ input {
   }
 }
 
-@media (max-height: 550px) and (min-width: 1700px) {
+@media (max-height: 810px) and (min-width: 1700px) {
   #board {
     width: 60%;
   }
