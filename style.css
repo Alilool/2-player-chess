@@ -280,6 +280,14 @@ input {
   border-radius: 10px;
 }
 
+#copy-fen {
+  display: none;
+  margin-top: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #444;
+}
+
 /* Responsive */
 
 @media (max-width: 1350px) {

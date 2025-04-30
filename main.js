@@ -35,6 +35,8 @@ const winnerMessageContainer = document.getElementById(
 );
 const winnerMessage = document.getElementById("winner-message");
 const winnerHeading = document.getElementById("winner-heading");
+const copyFEN = document.getElementById("copy-fen-btn");
+const copyFENMessage = document.getElementById("copy-fen");
 
 const config = {
   draggable: true,
@@ -188,6 +190,10 @@ playWithAI.addEventListener("change", () => {
 freeMove.addEventListener("change", () => {
   sparePieces[0].style.display = freeMove.checked ? "block" : "none";
   sparePieces[1].style.display = freeMove.checked ? "block" : "none";
+  document.querySelectorAll(".square-55d63").forEach((square) => {
+    square.style.backgroundImage =
+      "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0))";
+  });
 });
 
 start.addEventListener("click", () => {
@@ -205,6 +211,13 @@ start.addEventListener("click", () => {
 hideWelcome.addEventListener("change", () => {
   let hideWelcomeCheck = hideWelcome.checked;
   localStorage.setItem("hideWelcome", JSON.stringify(hideWelcomeCheck));
+});
+copyFEN.addEventListener("click", () => {
+  navigator.clipboard.writeText(game.fen());
+  copyFENMessage.style.display = "block";
+  setTimeout(() => {
+    copyFENMessage.style.display = "none";
+  }, 3000);
 });
 
 const overlay = document.createElement("div");
@@ -316,10 +329,12 @@ function makeMove(source, target, promotion = "q") {
     to: target,
     promotion: promotion, // Use selected promotion piece
   });
-
   if (move) {
     localStorage.setItem("lastGame", game.fen());
-
+    document.querySelectorAll(".square-55d63").forEach((square) => {
+      square.style.backgroundImage =
+        "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0))";
+    });
     if (move.captured && !game.in_check() && !game.in_checkmate()) {
       killAudio.play();
     } else if (game.in_check() || game.in_checkmate()) {
@@ -332,6 +347,9 @@ function makeMove(source, target, promotion = "q") {
   if (flipBoard.checked) {
     // Flip board if needed
     flipBoardFunc();
+    showLastMove(source, target);
+  } else {
+    showLastMove(target, source);
   }
   if (!freeMove.checked) {
     board1.position(game.fen()); // Update board
@@ -352,6 +370,20 @@ promotionButtons.forEach((button) => {
     hidePromotionMenu();
   });
 });
+
+function showLastMove(source, target) {
+  if (source && target) {
+    document.getElementsByClassName(
+      `square-${target}`
+    )[0].style.backgroundImage =
+      "linear-gradient(rgba(255, 255, 0, 0.3), rgba(255, 255, 0, 0.2)";
+
+    document.getElementsByClassName(
+      `square-${source}`
+    )[0].style.backgroundImage =
+      "linear-gradient(rgba(255, 255, 0, 0.3), rgba(255, 255, 0, 0.2))";
+  }
+}
 
 function updateStatus() {
   sparePieces[0].style.display = freeMove.checked ? "block" : "none";
@@ -415,6 +447,10 @@ function showWinnerMenu(end) {
 }
 
 function resetBoard() {
+  document.querySelectorAll(".square-55d63").forEach((square) => {
+    square.style.backgroundImage =
+      "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0))";
+  });
   game.reset();
   flipBoardFunc();
   board1.position(game.fen());
@@ -447,6 +483,10 @@ overlay.addEventListener("click", () => {
 });
 
 function undoMove() {
+  document.querySelectorAll(".square-55d63").forEach((square) => {
+    square.style.backgroundImage =
+      "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0))";
+  });
   game.undo();
   flipBoardFunc();
   board1.position(game.fen());
