@@ -287,7 +287,44 @@ input {
   margin-bottom: 10px;
   color: #444;
 }
-
+#chooseTheme {
+  min-width: 400px;
+}
+#theme-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+.theme {
+  background-color: #444;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+  border-radius: 10px;
+  min-width: 151px;
+  transition: all 0.3s ease-in-out;
+}
+.theme:hover {
+  background-color: #222;
+  cursor: pointer;
+}
+.theme p {
+  display: inline-block;
+  margin: 0 5px;
+  font-size: 1.2em;
+}
+.theme img {
+  width: 35px;
+  height: 35px;
+  margin: 0;
+  border: #ffffff solid 2px;
+  border-radius: 5px;
+}
 /* Responsive */
 
 @media (max-width: 1300px) {
@@ -423,5 +460,9 @@ input {
   }
   .menu {
     width: 60%;
+  }
+  #chooseTheme {
+    display: block;
+    min-width: 0;
   }
 }
