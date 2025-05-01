@@ -59,7 +59,7 @@ if (localStorage.getItem("playWithAI") === "true") {
 }
 
 const game = new Chess(); // Create a chess game instance
-let board1 = ChessBoard("board", config);
+let board1 = new Chessboard(document.getElementById("board"), config);
 let pendingMove = null; // Store move that needs promotion
 let isFlipped = false; // Track if the board is flipped
 let depth = playWithAI.checked ? localStorage.getItem("depth") : null;
@@ -149,6 +149,10 @@ document.addEventListener("DOMContentLoaded", () => {
       overlay.style.display = "block";
     }
   }
+});
+
+window.addEventListener("resize", () => {
+  board1.resize();
 });
 
 undoButton.addEventListener("click", () => {
@@ -264,7 +268,8 @@ notation.addEventListener("change", () => {
   const currentFen = board1.fen(); // Get the current board position
   config.showNotation = notation.checked; // Update config
   localStorage.setItem("notation", notation.checked);
-  board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
+  board1 = new Chessboard(document.getElementById("board"), config);
+  // Reinitialize the board with the updated config
   board1.position(currentFen);
 });
 
