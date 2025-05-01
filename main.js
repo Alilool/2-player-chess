@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("resize", () => {
   board1.resize();
+  showLastMove();
 });
 
 undoButton.addEventListener("click", () => {
@@ -351,9 +352,9 @@ function makeMove(source, target, promotion = "q") {
   if (flipBoard.checked) {
     // Flip board if needed
     flipBoardFunc();
-    showLastMove(source, target);
+    showLastMove();
   } else {
-    showLastMove(target, source);
+    showLastMove();
   }
   if (!freeMove.checked) {
     board1.position(game.fen()); // Update board
@@ -375,7 +376,10 @@ promotionButtons.forEach((button) => {
   });
 });
 
-function showLastMove(source, target) {
+function showLastMove() {
+  let lastMove = game.history({ verbose: true });
+  let source = lastMove[lastMove.length - 1].from;
+  let target = lastMove[lastMove.length - 1].to;
   if (source && target) {
     document.getElementsByClassName(
       `square-${target}`
