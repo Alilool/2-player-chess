@@ -532,7 +532,7 @@ function showWinnerMenu(end) {
         end === "w" ? "#fff" : "#2c2c2c"
       }`;
     }, 0);
-
+    winnerHeading.innerHTML = "Game Over!";
     winnerMessage.innerHTML = `Checkmate! <span class="color"
     }">${end === "w" ? "Black" : "White"}</span> wins!`;
     winnerMenu.style.display = "block";
