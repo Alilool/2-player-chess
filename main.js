@@ -234,7 +234,6 @@ returnYes.addEventListener("click", () => {
   if (localStorage.getItem("playWithAI") === "true") {
     playWithAI.checked = true;
     depth = localStorage.getItem("depth");
-    console.log(depth);
     if (game.turn() === "b") {
       getBotMove();
     }
@@ -433,7 +432,6 @@ function showWinnerMenu(end) {
     }, 0);
   } else {
     setTimeout(() => {
-      console.log(end);
       winnerMessageContainer.style.backgroundColor = `${
         end === "w" ? "#2c2c2c" : "#d8d8d8"
       }`;
