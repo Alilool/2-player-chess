@@ -1224,6 +1224,7 @@
 
         var s = squareElsOffsets[i];
         if (
+          s &&
           x >= s.left &&
           x < s.left + squareSize &&
           y >= s.top &&
