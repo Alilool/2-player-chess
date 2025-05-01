@@ -323,7 +323,7 @@ input {
   }
 }
 
-@media (max-height: 810px) and (max-width: 1380px) {
+@media (max-height: 810px) and (max-width: 1380px) and (min-width: 1000px) {
   #board {
     width: 85%;
   }
