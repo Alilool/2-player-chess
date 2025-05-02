@@ -17,7 +17,8 @@ const returnYes = document.getElementById("yes");
 const returnNo = document.getElementById("no");
 const returnContainer = document.getElementById("returnLastGame");
 const welcome = document.getElementById("welcome");
-const start = document.getElementById("start");
+const start_pvp = document.getElementById("start-pvp");
+const start_pvb = document.getElementById("start-pvb");
 const hideWelcome = document.getElementById("hideWelcome");
 const sparePieces = document.getElementsByClassName("spare-pieces-7492f");
 const playWithAI = document.getElementById("PlayWithAI");
@@ -290,7 +291,7 @@ freeMove.addEventListener("change", () => {
   });
 });
 
-start.addEventListener("click", () => {
+start_pvp.addEventListener("click", () => {
   welcome.style.display = "none";
   overlay.style.display = "none";
   if (
@@ -301,6 +302,22 @@ start.addEventListener("click", () => {
     returnContainer.style.display = "block";
     overlay.style.display = "block";
   }
+  playWithAI.checked = false;
+});
+start_pvb.addEventListener("click", () => {
+  welcome.style.display = "none";
+  overlay.style.display = "none";
+  if (
+    localStorage.getItem("lastGame") &&
+    localStorage.getItem("lastGame") !==
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  ) {
+    returnContainer.style.display = "block";
+  }
+  playWithAI.checked = true;
+  difficultyMenu.style.display = "block";
+  welcome.style.display = "none";
+  overlay.style.display = "block";
 });
 hideWelcome.addEventListener("change", () => {
   let hideWelcomeCheck = hideWelcome.checked;
@@ -577,11 +594,13 @@ overlay.addEventListener("click", () => {
   overlay.style.display = "none";
   returnContainer.style.display = "none";
   welcome.style.display = "none";
-  difficultyMenu.style.display = "none";
   resetMenu.style.display = "none";
   winnerMenu.style.display = "none";
   chooseTheme.style.display = "none";
-  if (promotionMenu.style.display === "block") {
+  if (
+    promotionMenu.style.display === "block" ||
+    difficultyMenu.style.display === "block"
+  ) {
     overlay.style.display = "block";
   }
 });
