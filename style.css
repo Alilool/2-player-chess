@@ -314,6 +314,8 @@ input {
   border-radius: 10px;
   min-width: 151px;
   transition: all 0.3s ease-in-out;
+  position: relative;
+  height: 50px;
 }
 .theme:hover {
   background-color: #222;
@@ -323,6 +325,8 @@ input {
   display: inline-block;
   margin: 0 5px;
   font-size: 1.2em;
+  position: absolute;
+  left: 20px;
 }
 .theme img {
   width: 35px;
@@ -330,6 +334,10 @@ input {
   margin: 0;
   border: #ffffff solid 2px;
   border-radius: 5px;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 /* Responsive */
 

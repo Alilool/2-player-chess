@@ -197,6 +197,7 @@ function setTheme() {
       }
     });
   } else if (theme === "Green") {
+    console.log("green enterd");
     divs.forEach((div) => {
       if (div.classList.length > 1 && div.classList[1].startsWith("black")) {
         div.style.backgroundColor = "#739552";
@@ -207,6 +208,32 @@ function setTheme() {
       ) {
         div.style.backgroundColor = "#ebecd0";
         div.style.color = "#739552";
+      }
+    });
+  } else if (theme === "Red") {
+    divs.forEach((div) => {
+      if (div.classList.length > 1 && div.classList[1].startsWith("black")) {
+        div.style.backgroundColor = "#b35948";
+        div.style.color = "#edd9c0";
+      } else if (
+        div.classList.length > 1 &&
+        div.classList[1].startsWith("white")
+      ) {
+        div.style.backgroundColor = "#edd9c0";
+        div.style.color = "#b35948";
+      }
+    });
+  } else if (theme === "Pink") {
+    divs.forEach((div) => {
+      if (div.classList.length > 1 && div.classList[1].startsWith("black")) {
+        div.style.backgroundColor = "#e596a5";
+        div.style.color = "#f5f0f1";
+      } else if (
+        div.classList.length > 1 &&
+        div.classList[1].startsWith("white")
+      ) {
+        div.style.backgroundColor = "#f5f0f1";
+        div.style.color = "#e596a5";
       }
     });
   }
