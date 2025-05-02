@@ -66,7 +66,9 @@ const game = new Chess(); // Create a chess game instance
 let board1 = new Chessboard(board, config);
 let pendingMove = null; // Store move that needs promotion
 let isFlipped = false; // Track if the board is flipped
-let depth = playWithAI.checked ? localStorage.getItem("depth") : null;
+let depthArr = playWithAI.checked
+  ? JSON.parse(localStorage.getItem("depth"))
+  : null;
 let theme = localStorage.getItem("theme")
   ? localStorage.getItem("theme")
   : "Brown";
@@ -75,10 +77,12 @@ function getBotMove() {
   fetch(
     `https://stockfish.online/api/s/v2.php?fen=${encodeURIComponent(
       game.fen()
-    )}&depth=${depth}`
+    )}&depth=${depthArr[getRandomInt(0, depthArr.length - 1)]}`
   )
     .then((res) => res.json())
     .then((data) => {
+      console.log(depthArr);
+      console.log(data);
       if (data && data.bestmove) {
         const bestMoveStr = data.bestmove;
         const parts = bestMoveStr.split(" ");
@@ -88,6 +92,7 @@ function getBotMove() {
         const to = move.substring(2, 4);
         makeMove(from, to);
         board1.position(game.fen());
+        console.log("move made");
       }
     });
 }
@@ -136,16 +141,18 @@ hard.addEventListener("click", () => {
 
 function setDepth(difficulty) {
   if (difficulty === "easy") {
-    depth = getRandomInt(4, 6); // Easy mode
-    localStorage.setItem("depth", depth);
+    let depth = getRandomInt(4, 6); // Easy mode
+    depthArr = [depth - 2, depth - 1, depth, depth + 1, depth + 2];
+    localStorage.setItem("depth", JSON.stringify(depthArr));
   } else if (difficulty === "medium") {
     depth = getRandomInt(9, 11); // Medium mode
-    localStorage.setItem("depth", depth);
+    depthArr = [depth - 2, depth - 1, depth, depth + 1, depth + 2];
+    localStorage.setItem("depth", JSON.stringify(depthArr));
   } else if (difficulty === "hard") {
-    depth = getRandomInt(14, 15); // Hard mode
-    localStorage.setItem("depth", depth);
+    depth = getRandomInt(11, 13); // Hard mode
+    depthArr = [depth - 2, depth - 1, depth, depth + 1, depth + 2];
+    localStorage.setItem("depth", JSON.stringify(depthArr));
   }
-  return depth;
 }
 function setTheme() {
   const divs = document.querySelectorAll("div");

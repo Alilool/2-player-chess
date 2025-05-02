@@ -182,6 +182,12 @@ label {
   font-weight: bold;
 }
 
+.logo {
+  width: 300px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
 input {
   width: 20px;
   height: 20px;
@@ -360,7 +366,7 @@ input {
   }
 }
 
-@media (max-height: 810px) and (max-width: 1380px) and (min-width: 1000px) {
+@media (max-height: 850px) and (max-width: 1380px) and (min-width: 1000px) {
   #board {
     width: 85%;
   }
@@ -462,7 +468,9 @@ input {
     width: 60%;
   }
   #chooseTheme {
-    display: block;
     min-width: 0;
+  }
+  .logo {
+    width: 200px;
   }
 }
