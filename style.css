@@ -339,6 +339,7 @@ input {
   top: 50%;
   transform: translateY(-50%);
 }
+
 /* Responsive */
 
 @media (max-width: 1300px) {
