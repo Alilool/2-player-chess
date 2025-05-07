@@ -131,16 +131,25 @@ easy.addEventListener("click", () => {
   difficultyMenu.style.display = "none";
   overlay.style.display = "none";
   setDepth("easy");
+  if (game.turn() === "b") {
+    getBotMove();
+  }
 });
 medium.addEventListener("click", () => {
   difficultyMenu.style.display = "none";
   overlay.style.display = "none";
   setDepth("medium");
+  if (game.turn() === "b") {
+    getBotMove();
+  }
 });
 hard.addEventListener("click", () => {
   difficultyMenu.style.display = "none";
   overlay.style.display = "none";
   setDepth("hard");
+  if (game.turn() === "b") {
+    getBotMove();
+  }
 });
 
 function setDepth(difficulty) {
@@ -306,9 +315,6 @@ playWithAI.addEventListener("change", () => {
   difficultyMenu.style.display = playWithAI.checked ? "block" : "none";
   settingsMenu.style.display = playWithAI.checked ? "none" : "block";
   localStorage.setItem("playWithAI", playWithAI.checked);
-  resetBoard();
-  board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
-  setTheme();
   updateStatus();
 });
 
