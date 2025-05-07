@@ -52,7 +52,7 @@ const config = {
   onDrop: handleMove,
 };
 
-if (localStorage.getItem("isFlipped") === "true") {
+if (localStorage.getItem("flipBoard") === "true") {
   flipBoard.checked = true;
 }
 if (localStorage.getItem("notation") === "true") {
@@ -82,8 +82,6 @@ function getBotMove() {
   )
     .then((res) => res.json())
     .then((data) => {
-      console.log(depthArr);
-      console.log(data);
       if (data && data.bestmove) {
         const bestMoveStr = data.bestmove;
         const parts = bestMoveStr.split(" ");
@@ -93,32 +91,37 @@ function getBotMove() {
         const to = move.substring(2, 4);
         makeMove(from, to);
         board1.position(game.fen());
-        console.log("move made");
       }
     });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  difficultyMenu.style.display = "none";
   let hideWelcomeCheck = false;
   setTheme();
   if (localStorage.getItem("hideWelcome")) {
     hideWelcomeCheck = JSON.parse(localStorage.getItem("hideWelcome"));
   }
 
-  if (!hideWelcomeCheck) {
+  if (!hideWelcomeCheck && !localStorage.getItem("lastGame")) {
     welcome.style.display = "block";
     overlay.style.display = "block";
   } else {
-    if (
-      localStorage.getItem("lastGame") &&
-      localStorage.getItem("lastGame") !==
-        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-    ) {
-      returnContainer.style.display = "block";
-      overlay.style.display = "block";
-    }
+    getLastGame();
   }
 });
+
+function getLastGame() {
+  if (
+    localStorage.getItem("lastGame") &&
+    localStorage.getItem("lastGame") !==
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" &&
+    difficultyMenu.style.display === "none"
+  ) {
+    returnContainer.style.display = "block";
+    overlay.style.display = "block";
+  }
+}
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -197,7 +200,6 @@ function setTheme() {
       }
     });
   } else if (theme === "Green") {
-    console.log("green enterd");
     divs.forEach((div) => {
       if (div.classList.length > 1 && div.classList[1].startsWith("black")) {
         div.style.backgroundColor = "#739552";
@@ -306,6 +308,7 @@ playWithAI.addEventListener("change", () => {
   localStorage.setItem("playWithAI", playWithAI.checked);
   resetBoard();
   board1 = ChessBoard("board", config); // Reinitialize the board with the updated config
+  setTheme();
   updateStatus();
 });
 
@@ -321,26 +324,14 @@ freeMove.addEventListener("change", () => {
 start_pvp.addEventListener("click", () => {
   welcome.style.display = "none";
   overlay.style.display = "none";
-  if (
-    localStorage.getItem("lastGame") &&
-    localStorage.getItem("lastGame") !==
-      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-  ) {
-    returnContainer.style.display = "block";
-    overlay.style.display = "block";
-  }
+  getLastGame();
   playWithAI.checked = false;
+  localStorage.setItem("playWithAI", false);
 });
 start_pvb.addEventListener("click", () => {
   welcome.style.display = "none";
   overlay.style.display = "none";
-  if (
-    localStorage.getItem("lastGame") &&
-    localStorage.getItem("lastGame") !==
-      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-  ) {
-    returnContainer.style.display = "block";
-  }
+  getLastGame();
   playWithAI.checked = true;
   difficultyMenu.style.display = "block";
   welcome.style.display = "none";
