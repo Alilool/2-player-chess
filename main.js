@@ -282,6 +282,7 @@ window.addEventListener("resize", () => {
   board1.resize();
   showLastMove();
   setTheme();
+  updateStatus();
 });
 
 undoButton.addEventListener("click", () => {
@@ -320,11 +321,8 @@ playWithAI.addEventListener("change", () => {
 
 freeMove.addEventListener("change", () => {
   sparePieces[0].style.display = freeMove.checked ? "block" : "none";
+  updateStatus();
   sparePieces[1].style.display = freeMove.checked ? "block" : "none";
-  document.querySelectorAll(".square-55d63").forEach((square) => {
-    square.style.backgroundImage =
-      "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0))";
-  });
 });
 
 start_pvp.addEventListener("click", () => {
@@ -534,28 +532,26 @@ function updateStatus() {
   sparePieces[0].style.display = freeMove.checked ? "block" : "none";
   sparePieces[1].style.display = freeMove.checked ? "block" : "none";
   if (game.in_check() && !game.in_checkmate()) {
-    if (!freeMove.checked) {
-      const king =
-        game.turn() === "w"
-          ? document.querySelectorAll('img[data-piece="wK"]')[0]
-          : document.querySelectorAll('img[data-piece="bK"]')[1];
-      const kingSquare = king.parentElement; // use optional chaining in case img is null
-      kingSquare.style.background =
-        "radial-gradient(circle, rgb(110, 0, 0), rgb(255, 0, 0) 100%)";
-    }
+    const king =
+      game.turn() === "w"
+        ? document.querySelectorAll('img[data-piece="wK"]')[0]
+        : document.querySelectorAll('img[data-piece="bK"]')[1];
+    const kingSquare = king.parentElement; // use optional chaining in case img is null
+    console.log("kingSquare", kingSquare);
+    kingSquare.style.background =
+      "radial-gradient(circle, rgb(110, 0, 0), rgb(255, 0, 0) 100%)";
     statusElement.innerHTML = `<span class="color" id="${
       game.turn() === "w" ? "white" : "black"
     }">${game.turn() === "w" ? "White" : "Black"}</span> in check`;
   } else if (game.in_check() && game.in_checkmate()) {
-    if (!freeMove.checked) {
-      const king =
-        game.turn() === "w"
-          ? document.querySelectorAll('img[data-piece="wK"]')[0]
-          : document.querySelectorAll('img[data-piece="bK"]')[1];
-      const kingSquare = king.parentElement; // use optional chaining in case img is null
-      kingSquare.style.background =
-        "radial-gradient(circle, rgb(110, 0, 0), rgb(255, 0, 0) 100%)";
-    }
+    const king =
+      game.turn() === "w"
+        ? document.querySelectorAll('img[data-piece="wK"]')[0]
+        : document.querySelectorAll('img[data-piece="bK"]')[1];
+    const kingSquare = king.parentElement;
+    kingSquare.style.background =
+      "radial-gradient(circle, rgb(110, 0, 0), rgb(255, 0, 0) 100%)";
+
     statusElement.innerHTML = `Checkmate! <span class="color" id="${
       game.turn() === "w" ? "black" : "white"
     }">${game.turn() === "w" ? "Black" : "White"}</span> Wins!`;
@@ -648,10 +644,6 @@ overlay.addEventListener("click", () => {
 });
 
 function undoMove() {
-  document.querySelectorAll(".square-55d63").forEach((square) => {
-    square.style.backgroundImage =
-      "linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0))";
-  });
   game.undo();
   flipBoardFunc();
   board1.position(game.fen());
@@ -659,7 +651,6 @@ function undoMove() {
   localStorage.setItem("lastGame", game.fen());
   updateStatus();
 }
-
 function flipBoardFunc() {
   if (flipBoard.checked) {
     if (game.turn() === "b" && !isFlipped) {
